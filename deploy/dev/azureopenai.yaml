@@ -1,0 +1,18 @@
+apiVersion: core.k8sgpt.ai/v1alpha1
+kind: K8sGPT
+metadata:
+  name: k8sgpt-azureopenai
+  namespace: default
+spec:
+  ai:
+    enabled: true
+    secret:
+      name: k8sgpt-secret
+      key: azure-api-key
+    model: gpt-4o
+    backend: azureopenai
+    baseUrl: https://chechia.openai.azure.com/
+    engine: llm
+  noCache: false
+  repository: ghcr.io/k8sgpt-ai/k8sgpt
+  version: v0.4.26

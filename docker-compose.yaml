@@ -1,0 +1,33 @@
+# https://github.com/guessi/docker-compose-etcd/blob/master/docker-compose.yml
+
+x-variables:
+  common_settings: &common_settings
+    image: ghcr.io/k8sgpt-ai/k8sgpt:v0.4.26
+
+networks:
+  k8sgpt:
+    name: k8sgpt
+    driver: bridge
+
+services:
+  k8sgpt:
+    <<: *common_settings
+    container_name: k8sgpt
+    entrypoint: sleep
+    networks:
+      - k8sgpt
+    command:
+      - '86400'
+    #volumes:
+    #  - k8sgpt:/k8sgpt_data
+    #ports:
+    #  - 2379:2379
+
+#volumes:
+#  k8sgpt:
+#    name: k8sgpt
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: k8sgpt_data
