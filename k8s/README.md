@@ -27,7 +27,7 @@ https://docs.k8sgpt.ai/getting-started/in-cluster-operator/
 helm repo add k8sgpt https://charts.k8sgpt.ai
 helm repo update
 
-helm install k8sgpt-operator k8sgpt/k8sgpt-operator --values install/values.yaml
+helm install k8sgpt-operator k8sgpt/k8sgpt-operator --values k8sgpt-operator/values.yaml
 kubectl get pods -w
 ```
 
