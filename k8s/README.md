@@ -27,13 +27,8 @@ https://docs.k8sgpt.ai/getting-started/in-cluster-operator/
 helm repo add k8sgpt https://charts.k8sgpt.ai
 helm repo update
 
-helm install k8sgpt k8sgpt/k8sgpt-operator --values install/values.yaml
-```
-
-uninstall
-
-```
-helm uninstall k8sgpt
+helm install k8sgpt-operator k8sgpt/k8sgpt-operator --values install/values.yaml
+kubectl get pods -w
 ```
 
 ### Apply K8sGpt Resources: AzureOpenAI
@@ -50,10 +45,26 @@ kubectl get pods
 kubectl logs azureopenai
 
 kubectl get k8sgpt
+kubectl get results
 ```
 
-- Install
+### auto remediation
+
+```
+kubectl apply -f cases/01-missing-image
+
+kubectl get po -w
+kubectl get mutation -w
+```
+
+### Cleanup
+
+```
+minikube delete
+```
+
+### Analyze Features
+
+- Prmpt https://github.com/k8sgpt-ai/k8sgpt-operator/blob/main/internal/prompts/prompt.go
 - Adopter
 - Guardrails
-
-
