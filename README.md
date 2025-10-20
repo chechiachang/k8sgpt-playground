@@ -1,3 +1,7 @@
+### Playground
+
+https://k8sgpt.ai/docs/tutorials/playground
+
 ### [Install](https://k8sgpt.ai/docs/getting-started/installation)
 
 ```
