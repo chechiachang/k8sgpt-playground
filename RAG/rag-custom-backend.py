@@ -1,3 +1,4 @@
+import os
 from dotenv import find_dotenv
 from dotenv import load_dotenv
 
@@ -8,8 +9,10 @@ load_dotenv(find_dotenv())
 # Note: make sure you have Qdrant running in your Kubernetes cluster and port-forwarded to localhost:6334
 # kubectl -n qdrant port-forward svc/qdrant 6334:6334
 import qdrant_client
+
+qdrant_host = os.getenv("QDRANT_HOST", "127.0.0.1")
 client = qdrant_client.QdrantClient(
-    host="localhost",
+    host=qdrant_host,
     prefer_grpc=True,
 )
 
@@ -105,7 +108,6 @@ class CustomRestResponse(BaseModel):
     response: str
 
 # API with FastAPI
-import os
 import asyncio
 from typing import Union
 from fastapi import FastAPI
@@ -118,12 +120,14 @@ async def completions(req: CustomRestRequest) -> CustomRestResponse:
 
     err_message = req.options["message"] if "message" in req.options else "No message provided"
     docs = query_docs(
-        query=err_message,
+        #query=err_message,
+        query=req.prompt,
         collection_name="covid-qa-3-large",
         model="text-embedding-3-large")
 
     answer = generate_answer(
-        query=err_message,
+        #query=err_message,
+        query=req.prompt,
         docs=docs,
         model="gpt-4o-mini")
 

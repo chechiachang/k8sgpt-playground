@@ -1,0 +1,66 @@
+# https://github.com/k8sgpt-ai/k8sgpt-operator/blob/main/config/crd/bases/core.k8sgpt.ai_k8sgpts.yaml
+apiVersion: core.k8sgpt.ai/v1alpha1
+kind: K8sGPT
+metadata:
+  name: rag-k8sgpt # name conflicts with existing deployment
+  namespace: default
+spec:
+  repository: ghcr.io/k8sgpt-ai/k8sgpt
+  version: v0.4.26
+  ai:
+    enabled: true
+    model: gpt-4o-mini
+    backend: customrest
+    baseUrl: http://rag:8000/completions
+    engine: ""
+    language: English
+    maxTokens: "2048"
+    providerId: ""
+    proxyEndpoint: ""
+    region: ""
+    secret:
+      name: azureopenai
+      key: azure-api-key
+    topk: "50"
+    autoRemediation:
+      enabled: true
+      similarityRequirement: "90"
+      resources:
+        - Pod
+        - Service
+        - Deployment
+    backOff:
+      enabled: true
+      maxRetries: 3
+  analysis:
+    interval: "1m"
+  customAnalyzers: []
+  extraOptions:
+    backstage:
+      enabled: false
+    serviceAccountIRSA: ""
+  filters: []
+  imagePullPolicy: IfNotPresent
+  imagePullSecrets: []
+  #integrations:
+  #  trivy:
+  #    enabled: false
+  #    namespace: default
+  #    skipInstall: false
+  #kubeconfig:
+  #  key: ""
+  #  name: ""
+  noCache: false
+  nodeSelector: {}
+  remoteCache: {}
+  sink:
+    type: "slack" # options: slack, mattermost, cloudevents
+    channel: ""
+    icon_url: ""
+    username: ""
+    webhook: ""
+    #secret:
+    #  key: ""
+    #  name: ""
+  targetNamespace: ""
+

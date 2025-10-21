@@ -1,0 +1,21 @@
+# https://github.com/k8sgpt-ai/k8sgpt-operator/blob/main/config/samples/autoremediation/deployment_missing_image.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dont-do-anything-deployment
+  namespace: legacy
+  labels:
+    app: dont-do-anything-deployment
+spec:
+  selector:
+    matchLabels:
+      app: dont-do-anything-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dont-do-anything-deployment
+    spec:
+      containers:
+        - name: dont-do-anything-deployment
+          image: nginxxx

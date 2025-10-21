@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag
+  template:
+    metadata:
+      labels:
+        app: rag
+    spec:
+      containers:
+      - image: chechiachang/k8sgpt-rag:latest
+        name: rag
+        args: []
+        imagePullPolicy: Always
+        env:
+        - name: QDRANT_HOST
+          value: "qdrant.qdrant"
+        - name: AZURE_OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_OPENAI_API_KEY
+              name: rag
+        - name: AZURE_OPENAI_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_OPENAI_ENDPOINT
+              name: rag
+        - name: OPENAI_API_VERSION
+          valueFrom:
+            secretKeyRef:
+              key: OPENAI_API_VERSION
+              name: rag
+        - name: OPENAI_MODEL
+          valueFrom:
+            secretKeyRef:
+              key: OPENAI_MODEL
+              name: rag
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
