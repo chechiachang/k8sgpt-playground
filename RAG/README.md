@@ -60,7 +60,7 @@ k8sgpt auth add --backend customrest \
     --model gpt-4o-mini
 
 k8sgpt analyze --backend customrest --explain --no-cache --max-concurrency=1 \
-    --filter Pod,Service,Ingress,ConfigMap
+    --filter Deployment
 ```
 
 ### dockerize and deploy to k8s

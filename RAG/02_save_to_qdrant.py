@@ -31,7 +31,7 @@ openai_client = AzureOpenAI()
 
 # Initialize Qdrant client
 # Note: make sure you have Qdrant running in your Kubernetes cluster and port-forwarded to localhost:6334
-# kubectl -n qdrant port-forward svc/qdrant 6334:6334
+# kubectl -n qdrant port-forward svc/qdrant 6334:6334 6333:6333
 
 import qdrant_client
 client = qdrant_client.QdrantClient(
