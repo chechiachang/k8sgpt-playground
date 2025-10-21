@@ -41,10 +41,10 @@ client = qdrant_client.QdrantClient(
 client.get_collections()
 
 # create collection
-collection_name = "covid-qa-3-large"
+collection_name = "rag"
 
 # delete collection before creating a new one
-#client.delete_collection(collection_name=collection_name)
+client.delete_collection(collection_name=collection_name)
 
 # vector_size = 3072
 print(len(qa_df.iloc[0]["question_vector"]))
@@ -83,4 +83,4 @@ client.upsert(
 
 # Check the collection size to make sure all the points have been stored
 print("Total points in collection:")
-client.count(collection_name="covid-qa-3-large")
+print(client.count(collection_name="rag"))

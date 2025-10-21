@@ -1,4 +1,3 @@
 question,title,answer,wrong_answer,source
-How to adjust memory for redis in “poor” namespace?,Redis of nomoney,Do not increase resources for redis in poor namespace,Increase memory resource,Internal Documentation
-How to modify deployment in “legacy” namespace?,Legacy namespace,Don’t do anything!,Update,Internal Documentation
-如何升級 legacy namespace 中的 k8s object?,Legacy,不要動，沒壞就不要動！,改動,前人的智慧
+How to modify deployment dont-do-anything-deployment?,Dont-do-anything-deployment,Don’t do anything!,Update,Internal Documentation
+如何升級 deployment dont-do-anything-deployment 的 k8s object?,Legacy,不要動，沒壞就不要動！,改動,前人的智慧

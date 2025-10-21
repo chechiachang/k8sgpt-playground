@@ -29,7 +29,7 @@ def get_embedding(text, model="text-embedding-3-large"):
     )
     return res.data[0].embedding
 
-def query_docs(query, collection_name="covid-qa-3-large", model="text-embedding-3-large" , top_k=5):
+def query_docs(query, collection_name="rag", model="text-embedding-3-large" , top_k=5):
     query_vect = get_embedding(query, model)
     results = client.query_points(
         collection_name=collection_name,
@@ -43,24 +43,14 @@ def query_docs(query, collection_name="covid-qa-3-large", model="text-embedding-
 
 def generate_answer(query, docs, model="gpt-4o-mini"):
     context = "\n\n".join(docs)
-    prompt = f"""
-1. Please generate a response to the following query.
-2. Response doesn't include context.
-3. If context is empty, generate a response using the model's knowledge and capabilities.
-
-context：
-{context}
-
-query：
-{query}
-"""
+    prompt = query + "\n\n" + context
     res = openai_client.chat.completions.create(
         model=model,  # 或你的 Azure 模型名稱
         messages=[
             {"role": "system", "content": "You're a helpful AI assistant provide solution to k8sgpt on Kubernetes."},
             {"role": "user", "content": prompt}
         ],
-        temperature=0.2
+        temperature=0.0
     )
     return res.choices[0].message.content.strip()
 
@@ -69,7 +59,7 @@ def run_qa():
     query = "是否可以改動 poor namespace 中的內容?"
     docs = query_docs(
         query=query,
-        collection_name="covid-qa-3-large",
+        collection_name="rag",
         model="text-embedding-3-large")
     answer = generate_answer(
         query=query,
@@ -118,16 +108,18 @@ model=os.getenv("MODEL_NAME", "gpt-4o-mini")
 @app.post("/completions")
 async def completions(req: CustomRestRequest) -> CustomRestResponse:
 
-    err_message = req.options["message"] if "message" in req.options else "No message provided"
+    message = req.options["message"] if "message" in req.options else "No message provided"
+    print("Received promt: ", req.prompt)
+    print("Received message: ", message)
     docs = query_docs(
-        #query=err_message,
+        #query=message,
         query=req.prompt,
-        collection_name="covid-qa-3-large",
+        collection_name="rag",
         model="text-embedding-3-large")
 
     answer = generate_answer(
-        #query=err_message,
-        query=req.prompt,
+        query=message,
+        #query=req.prompt,
         docs=docs,
         model="gpt-4o-mini")
 
